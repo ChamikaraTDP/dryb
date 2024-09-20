@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_version": "20.1.0",
+
+  "compilerOptions": {
+    // node - v20 base
+    "lib": ["dom", "es2023"],
+    "module": "node16",
+    "target": "es2022",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node16",
+    // custom
+    "resolveJsonModule": true,
+    "incremental": true,
+    "outDir": "dist",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "removeComments": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

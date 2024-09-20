@@ -1,0 +1,27 @@
+services:
+  dryb-mongo:
+      image: mongo:7.0.14-jammy
+      volumes:
+        - dryb-data:/data/db
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: Black@521
+        MONGO_INITDB_DB: dryb
+
+  dryb:
+    image: node:20.17.0-alpine3.19
+    command: sh -c "npm install && npm start"
+    ports:
+      - 127.0.0.1:3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Black@521
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+
+
+volumes:
+  dryb-data:
