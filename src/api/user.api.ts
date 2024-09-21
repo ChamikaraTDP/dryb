@@ -8,11 +8,13 @@ async function create({ name, address, tel }: IUser) {
   user.tel = tel;
 
   await user.save();
+
+  return user;
 }
 
 
-async function findOne({ name }: Pick<IUser, "name">) {
-  const user = await User.findOne({ name });
+async function findOne(name: string) {
+  const user = await User.findOne({ name }).exec();
 
   return user;
 }

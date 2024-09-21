@@ -1,5 +1,21 @@
 import readline from 'node:readline/promises';
-// import {  findUser } from '../api/user.api';
+import { createUser, findUser } from '../api/user.api';
+import { IUser, User } from '../lib/model/user.model';
+import { HydratedDocument } from 'mongoose';
+
+export let activeUser: HydratedDocument<IUser> | null;
+
+export function setActiveUser(user: HydratedDocument<IUser>) {
+    activeUser = user;
+}
+
+export function getActiveUser() {
+    return activeUser;
+}
+
+export async function reloadActiveUser() {
+    if (activeUser) activeUser = await User.findById(activeUser.id);
+}
 
 export async function register() {
     const rl = readline.createInterface({
@@ -7,9 +23,7 @@ export async function register() {
         output: process.stdout,
     });
 
-    // next steps will assign user details
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const user = {} as any;
+    const user: IUser = { name: '', address: '', tel: '', property_ids: [] };
 
     user.name = await rl.question(`What's your name?`);
     user.address = await rl.question(`What's your address?`);
@@ -17,20 +31,34 @@ export async function register() {
 
     rl.close();
 
-    // const oldUser = await findUser(user.name);
+    const oldUser = await findUser(user.name);
 
-    // if (oldUser) {
-    //     console.log("User already exists!");
-    //     return;
-    // }
+    if (oldUser) {
+        console.log('User already exists!');
+        return;
+    }
 
-    // await createUser(user);
+    await createUser(user);
 
     console.log(`Hi ${user.name}, you're registered!`);
 }
 
-export async function login({ name }: { name: string }) {
+export async function login() {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
 
+    const name = await rl.question('Please enter your name');
 
-    console.log(`user: ${name} loged in!`);
+    rl.close();
+
+    const oldUser = await findUser(name);
+
+    if (oldUser) {
+        setActiveUser(oldUser);
+        console.log(`Loged in successfully!`);
+    } else {
+        console.log('Login failed! Please re-check');
+    }
 }

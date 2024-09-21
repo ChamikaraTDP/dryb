@@ -1,8 +1,7 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { BookingSchema, IBooking } from './booking.model';
 
 export type IProperty = {
-    owner_id: Types.ObjectId;
     type: string;
     name: string;
     tel?: string;
@@ -11,7 +10,7 @@ export type IProperty = {
     max_allowed?: number;
     condition?: string;
     is_available: boolean;
-    bookings: IBooking[];
+    bookings?: IBooking[];
 };
 
 export const PropertySchema = new Schema<IProperty>({
