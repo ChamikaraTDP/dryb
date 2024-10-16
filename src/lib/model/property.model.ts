@@ -10,7 +10,7 @@ export type IProperty = {
     max_allowed?: number;
     condition?: string;
     is_available: boolean;
-    bookings?: IBooking[];
+    bookings: IBooking[];
 };
 
 export const PropertySchema = new Schema<IProperty>({

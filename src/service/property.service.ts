@@ -21,6 +21,7 @@ async function create() {
         type: 'S',
         price: 0,
         is_available: true,
+        bookings: [],
     };
 
     item.name = await rl.question(`Property name?`);
@@ -53,5 +54,15 @@ export async function find() {
 
     return items;
 }
+
+
+function viewUpcomingBookings(params:type) {
+  
+}
+
+function viewAllAvailable(params:type) {
+    
+}
+
 
 export { create as addProperty, find as findProperties };
